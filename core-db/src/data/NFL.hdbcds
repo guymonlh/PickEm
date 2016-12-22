@@ -1,0 +1,71 @@
+context NFL {
+
+
+/* team table */
+entity Team {
+	key TeamKey: Integer;
+	TeamName: String(50);
+	TeamCity: String(50);
+	TeamState: String(2);
+	TeamAbbreviation: String(3);
+	TeamLongName: String(50);
+	TeamAltAbbreviation: String(3);
+};
+
+/* TRANS_WEEK table */
+entity Week {
+	key WeekKey: Integer;
+	WeekName: String(10);
+	WeekNumber: Integer;
+	WeekYear: Integer;
+	TiebreakerGameKey: Integer;
+	TiebreakerGame: Association[1] to Game on TiebreakerGame.GameKey = TiebreakerGameKey;
+	TiebreakerScore: Integer;
+};
+
+/* Game table */
+entity Game {
+	key GameKey: Integer;
+	GameDate: LocalDate;
+	GameTime: LocalTime;
+	AwayTeamName: String(100);  /*unnecessary but useful when loading data from excel */
+	HomeTeamName: String(100);  /*unnecessary but useful when loading data from excel */
+	AwayTeamKey: Integer;
+	AwayTeam: Association[1] to Team on AwayTeam.TeamKey = AwayTeamKey; 
+	HomeTeamKey: Integer;
+	HomeTeam: Association[1] to Team on HomeTeam.TeamKey = HomeTeamKey; 
+	AwayScore: Integer;
+	HomeScore: Integer;
+	WeekName: String(10);      /*unnecessary but useful when loading data from excel */
+	WeekKey: Integer; 
+	GameWeek: Association[1] to Week on GameWeek.WeekKey = WeekKey;
+	GameDateString : String(20);
+	GameTimeString : String(20);
+};
+
+/* Gamesheet table */
+entity Gamesheet {
+	key GamesheetKey: Integer;
+	Picks: Association[*] to Pick on Picks.GamesheetKey = GamesheetKey;
+	WeekKey : Integer;
+	GamesheetWeek: Association[1] to Week on GamesheetWeek.WeekKey = WeekKey;
+	EmployeeId: Integer;
+	PlayerName: String(50);
+	TiebreakerScore: Integer;
+};
+
+/* Pick table */
+entity Pick {
+	key PickKey: Integer;
+	GamesheetKey : Integer;
+	PickGamesheet: Association[1] to Gamesheet on PickGamesheet.GamesheetKey = GamesheetKey;
+	GameKey : Integer;
+	PickGame: Association[1] to Game on PickGame.GameKey = GameKey;
+	TeamPickKey : Integer;
+	TeamPick: Association[1] to Team on TeamPick.TeamKey = TeamPickKey;
+	WagerPoints : Integer;
+};
+
+
+
+};

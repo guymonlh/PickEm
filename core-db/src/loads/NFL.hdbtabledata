@@ -1,0 +1,162 @@
+{
+    "format_version": 1,
+    "imports": [
+        {
+            "target_table": "NFL.Game",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "game.csv",
+                "has_header": false,
+				"dialect": "HANA",
+				"timestamp_format" : "YYYY-MM-DD HH24:MI:SS",
+				"type_config": { "delimiter": ","	}
+            },
+            "import_settings": {
+                "import_columns": [
+                    "GameKey",
+                    "GameDate",
+                    "GameTime",
+                    "AwayTeamName",
+                    "HomeTeamName",
+                    "AwayTeamKey",
+                    "HomeTeamKey",
+                    "AwayScore",
+                    "HomeScore",
+                    "WeekName",
+                    "WeekKey",
+                    "GameDateString",
+                    "GameTimeString"
+                ]
+            },
+            	"column_mappings": {
+					"GameKey" : 1,
+                    "GameDate" : 2,
+                    "GameTime" : 3,
+                    "AwayTeamName" : 4,
+                    "HomeTeamName" : 5,
+                    "AwayTeamKey" : 6,
+                    "HomeTeamKey" : 7,
+                    "AwayScore" : 8,
+                    "HomeScore" : 9,
+                    "WeekName" : 10,
+                    "WeekKey" : 11,
+                    "GameDateString" : 12,
+                    "GameTimeString" : 13
+			}
+		},
+         {
+            "target_table": "NFL.Team",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "team.csv",
+                "has_header": false,
+				"dialect": "HANA",
+				"type_config": { "delimiter": ","	}
+            },
+            "import_settings": {
+                "import_columns": [
+                    "TeamKey",
+                    "TeamName",
+                    "TeamCity",
+                    "TeamState",
+                    "TeamAbbreviation",
+                    "TeamLongName",
+                    "TeamAltAbbreviation"
+                ]
+            },
+            	"column_mappings": {
+					"TeamKey" : 1,
+                    "TeamName" : 2,
+                    "TeamCity" : 3,
+                    "TeamState" : 4,
+                    "TeamAbbreviation" : 5,
+                    "TeamLongName" : 6,
+                    "TeamAltAbbreviation" : 7
+			}
+        },
+         {
+            "target_table": "NFL.Gamesheet",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "gamesheet.csv",
+                "has_header": false,
+				"dialect": "HANA",
+				"type_config": { "delimiter": ","	}
+            },
+            "import_settings": {
+                "import_columns": [
+                    "GamesheetKey",
+                    "WeekKey",
+                    "EmployeeId",
+                    "PlayerName",
+                    "TiebreakerScore"
+                ]
+            },
+            	"column_mappings": {
+					"GamesheetKey" : 1,
+                    "WeekKey" : 2,
+                    "EmployeeId" : 3,
+                    "PlayerName" : 4,
+                    "TiebreakerScore" : 5
+			}
+        },
+         {
+            "target_table": "NFL.Week",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "week.csv",
+                "has_header": false,
+				"dialect": "HANA",
+				"type_config": { "delimiter": ","	}
+            },
+            "import_settings": {
+                "import_columns": [
+                    "WeekKey",
+                    "WeekName",
+                    "WeekNumber",
+                    "WeekYear",
+                    "TiebreakerGameKey",
+                    "TiebreakerScore"
+                ]
+            },
+            	"column_mappings": {
+					"WeekKey" : 1,
+                    "WeekName" : 2,
+                    "WeekNumber" : 3,
+                    "WeekYear" : 4,
+                    "TiebreakerGameKey" : 5,
+                    "TiebreakerScore" : 6
+			}
+        },
+         {
+            "target_table": "NFL.Pick",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "pick.csv",
+                "has_header": false,
+				"dialect": "HANA",
+				"type_config": { "delimiter": ","	}
+            },
+            "import_settings": {
+                "import_columns": [
+                    "PickKey",
+                    "GamesheetKey",
+                    "GameKey",
+                    "TeamPickKey",
+                    "WagerPoints"
+                ]
+            },
+            	"column_mappings": {
+					"PickKey" : 1,
+                    "GamesheetKey" : 2,
+                    "GameKey" : 3,
+                    "TeamPickKey" : 4,
+                    "WagerPoints" : 5
+			}
+        }
+        
+    ]
+}
+--update "NFL.Game" set "GameDate" = TO_DATE("GameDateString",'MM/DD/YYYY')
+--update "NFL.Game" set "GameTime" = TO_TIME("GameTimeString",'HH24:MI')
+
